@@ -1,5 +1,5 @@
 <template>
-  <button :class="['btn', type === 'secondary' ? 'btn-secondary' : 'btn-primary']">
+  <button :class="['btn', type === 'secondary' ? 'btn-secondary' : 'btn-primary', {'btn-disabled': disabled}]" :disabled="disabled">
     {{ title }}
   </button>
 </template>
@@ -29,3 +29,6 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+@import './_index.scss'
+</style>
