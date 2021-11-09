@@ -1,5 +1,5 @@
 <template>
-  <transition>
+  <transition name="fade">
     <div v-if="visible" class="overlay">
       <header class="overlay-head">
         <div class="overlay-head-title">
@@ -8,8 +8,8 @@
           </div>
           <h2>{{ name }}</h2>
           </div>
-        <div class="overlay-icon">
-          <CloseOutlined @click="$emit('close')" :style="{fontSize: '1.3rem', color: '#595959'}"/>
+        <div class="overlay-icon" @click="$emit('close')">
+          <CloseOutlined :style="{fontSize: '1.3rem', color: '#595959'}"/>
         </div>
       </header>
       

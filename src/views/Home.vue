@@ -16,10 +16,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home{
-  // display: flex;
-  // padding-top: 10rem;
-  // widows: 100%;
-  // justify-content: center;
-  // align-items: center;
+  display: flex;
+  padding-top: 10rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 </style>
