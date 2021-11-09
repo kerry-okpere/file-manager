@@ -1,0 +1,24 @@
+.checkbox {
+  input[type="checkbox"]{
+    appearance: none;
+    -webkit-appearance: none;
+    & + span{
+      height: 1.25rem;
+      width: 1.25rem;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border: 1px solid $grey-200;
+      border-radius: 100%;
+      transition: all 0.5s ease;
+      vertical-align: middle;
+    }
+    &:checked{
+      & + span{
+        border-color: $accent;
+        background-color: $accent;
+      }
+    }
+  }
+}
