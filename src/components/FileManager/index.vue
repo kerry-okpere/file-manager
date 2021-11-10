@@ -41,7 +41,8 @@
           <!-- :checked="typeOfItem(file.mimeType) !== 'file:others' ? isFileSelected() : false" -->
       </div>
       <footer class="overlay-footer">
-        <Button :title="`Select ${2} Files`"/>
+        <!-- disabled if selected is > 0 -->
+        <Button :title="btnTitle" :disabled="true" />
       </footer>
     </div>
   </transition>
@@ -51,6 +52,7 @@
 import DirectoryItem from '@/components/DirectoryItem/index.vue'
 import Button from '@/components/Button/index.vue'
 import { ArrowLeftOutlined, FolderOpenOutlined, CloseOutlined } from '@ant-design/icons-vue'
+import { computed } from '@vue/reactivity'
 
 export default {
   name: 'FileManager',
@@ -91,6 +93,10 @@ export default {
     }
   },
   setup(props) {
+    const btnTitle = computed(() => {
+      // length of selected is > 0
+      return 'Select Files'
+    })
     const isFileSelected = file => {
       return true
     }
@@ -104,6 +110,7 @@ export default {
       return 'file:others'
     }
     return {
+      btnTitle,
       isFileSelected,
       typeOfItem
     }
