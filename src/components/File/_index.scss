@@ -1,11 +1,11 @@
-.folder, .file{
+.file{
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem;
   border-radius: 8px;
   transition: all 0.5s ease;
-  cursor: pointer;
+  cursor: auto;
   &-title{
     display: flex;
     align-items: center;
@@ -29,10 +29,6 @@
   &:active{
     background-color: rgba(0, 0, 0, 0.08);
   }
-}
-
-.file{
-  cursor: auto;
   &-disabled{
     cursor: not-allowed;
   }
