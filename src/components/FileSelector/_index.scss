@@ -1,6 +1,22 @@
 .fileSelector{
-  position: relative;
-  // width: 100%;
-  // &-overlay {
-  // }
+  width: 100%;
+  &-title{
+    padding: .25rem 0;
+    font-weight: 600;
+  }
+  &-files{
+    padding: 1rem 0;
+    p{
+      padding: .5rem 0;
+    }
+  }
+  &-container{
+    margin: 0 auto;
+    width: 60%;
+    position: relative;
+  }
+  &-content{
+    margin: 0 auto;
+    width: fit-content;
+  }
 }

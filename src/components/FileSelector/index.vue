@@ -1,18 +1,23 @@
 <template>
   <div class="fileSelector">
-    <Button title="Select File" @click="visible = true"/>
-    <FileManager class="fileSelector-overlay"
-      :visible="visible" :name="directory.name" 
-      :files="directory.files" :folders="directory.folders"
-      :parentFolderId="directory?.parentFolderId" 
-      :loading="loading" :error="error"
-      @back="goToParentDirectory"
-      @change="changeDirectory"
-      @close="visible = false"
-      @complete="complete"
-    />
-    <div>
-      <p v-for="file in selectedFile" :key="file.id">{{ file.name }}</p>
+    <div class="fileSelector-container">
+      <div class="fileSelector-content">
+        <Button title="Select File" @click="open"/>
+        <FileManager class="fileSelector-overlay"
+          :visible="visible" :name="directory.name" 
+          :files="directory.files" :folders="directory.folders"
+          :parentFolderId="directory?.parentFolderId" 
+          :loading="loading" :error="error"
+          @back="goToParentDirectory"
+          @change="changeDirectory"
+          @close="visible = false"
+          @complete="complete"
+        />
+      </div>
+      <div v-if="selectedFile.length > 0" class="fileSelector-files">
+        <h3 class="fileSelector-title">Files Selected</h3>
+        <p v-for="file in selectedFile" :key="file.id">{{ file.name }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -50,6 +55,10 @@ export default {
       state.tracker.push(index)
       state.directory = {...folder}
     }
+    const open = () => {
+      state.directory = {...state.root}
+      state.visible = true
+    }
     const complete = file => {
       state.selectedFile = [...file]
       state.visible = false
@@ -70,11 +79,8 @@ export default {
         const response = await getDirectory('https://api-dev.reo.so/api/folderStructure')
         state.root = {...state.root, ...response}
         state.directory = {...state.root}
-        console.log(state.root)
-
       } catch (error) {
         state.error = true
-        console.log(error)
       }
 
       state.loading = false
@@ -87,7 +93,8 @@ export default {
       changeDirectory,
       goToParentDirectory,
       ...toRefs(state),
-      complete
+      complete,
+      open
     }
   },
 }
