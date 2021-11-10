@@ -103,7 +103,6 @@ export default {
       }else {
         state.selected = state.selected.filter(({id}) => id !== data.file.id)
       }
-      console.log(state.selected)
     }
     const isFileSelected = file => {
       let index = state.selected.findIndex(({id}) => id === file.id)
