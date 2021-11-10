@@ -1,0 +1,52 @@
+.file{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.5s ease;
+  cursor: auto;
+  &-title{
+    display: flex;
+    align-items: center;
+    p{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 12rem;
+    }
+  }
+  &-icon{
+    max-width: 28px;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 4px;
+    margin-right: 1rem;
+  }
+  &:hover{
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  &:active{
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  &-disabled{
+    cursor: not-allowed;
+  }
+  &-disabled > &-title > p{
+    color: $grey-200;
+  }
+  &-image{
+    height: 36px;
+    width: 36px;
+    border-radius: 4px;
+    margin-right: 1rem;
+    background-color: $grey-100;
+    img{
+      height: 100%;
+      width: 100%;
+      border-radius: 4px;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+}
