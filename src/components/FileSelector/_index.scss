@@ -1,8 +1,14 @@
 .fileSelector{
   width: 100%;
-  &-title{
+  h3{
     padding: .25rem 0;
     font-weight: 600;
+  }
+  p{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &-files{
     padding: 1rem 0;

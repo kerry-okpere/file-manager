@@ -17,7 +17,7 @@
         />
       </div>
       <div v-if="selectedFiles.length > 0" class="fileSelector-files">
-        <h3 class="fileSelector-title">Files Selected</h3>
+        <h3>Files Selected</h3>
         <p v-for="file in selectedFiles" :key="file.id">{{ file.name }}</p>
       </div>
     </div>
