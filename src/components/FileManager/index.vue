@@ -3,7 +3,7 @@
     <div v-if="visible" class="overlay">
       <header class="overlay-head">
         <div class="overlay-head-title">
-          <div class="overlay-icon" v-if="parentFolderId !== undefined">
+          <div class="overlay-icon" v-if="parentFolderId !== undefined" @click="$emit('back')">
             <ArrowLeftOutlined :style="{fontSize: '1.3rem', color: '#595959'}"/>
           </div>
           <h2>{{ name }}</h2>
@@ -29,30 +29,27 @@
       </div>
       
       <div v-else class="overlay-body">
-        <!-- folders -->
-        <DirectoryItem type="folder" v-for="folder in folders" :key="folder.id" :name="folder.name" @click="$emit('change', folder)"/>
+        <Folder v-for="(folder, index) in folders" :key="folder.id" :name="folder.name" @click="$emit('change', {index, folder})"/>
         
-        <!-- files -->
-        <DirectoryItem v-for="file in files" :key="file.id" :name="file.name" :checked="isFileSelected()"
+        <File v-for="file in files" :key="file.id" :name="file.name" :checked="isFileSelected(file)"
           :type="typeOfItem(file.mimeType)" 
           :disabled="typeOfItem(file.mimeType) === 'file:others'"
           :image="typeOfItem(file.mimeType) === 'file:img' ? file.url : ''" 
-          @update:checked="$emit('update:checked', {checked: $event, file})" />
-          <!-- :checked="typeOfItem(file.mimeType) !== 'file:others' ? isFileSelected() : false" -->
+          @update:checked="onChecked({checked:$event, file})" />
       </div>
       <footer class="overlay-footer">
-        <!-- disabled if selected is > 0 -->
-        <Button :title="btnTitle" :disabled="true" />
+        <Button :title="btnTitle" :disabled="selected.length < 1" @click="$emit('complete', selected)" />
       </footer>
     </div>
   </transition>
 </template>
 
 <script>
-import DirectoryItem from '@/components/DirectoryItem/index.vue'
+import File from '@/components/File/index.vue'
 import Button from '@/components/Button/index.vue'
+import Folder from '@/components/Folder/index.vue'
 import { ArrowLeftOutlined, FolderOpenOutlined, CloseOutlined } from '@ant-design/icons-vue'
-import { computed } from '@vue/reactivity'
+import { computed, reactive, toRefs } from '@vue/reactivity'
 
 export default {
   name: 'FileManager',
@@ -92,13 +89,25 @@ export default {
       }
     }
   },
-  setup(props) {
-    const btnTitle = computed(() => {
-      // length of selected is > 0
-      return 'Select Files'
+  setup() {
+    const state = reactive({
+      selected: []
     })
+    const btnTitle = computed(() => {
+      return state.selected.length > 0 ? `Select ${state.selected.length} Files` : 'Select Files'
+    })
+    const onChecked = (data) => {
+
+      if(data.checked){
+        state.selected.push(data.file)
+      }else {
+        state.selected = state.selected.filter(({id}) => id !== data.file.id)
+      }
+      console.log(state.selected)
+    }
     const isFileSelected = file => {
-      return true
+      let index = state.selected.findIndex(({id}) => id === file.id)
+      return index >= 0
     }
     const typeOfItem = type => {
       if(type === 'image/png' || type === 'image/jpeg'){
@@ -112,12 +121,15 @@ export default {
     return {
       btnTitle,
       isFileSelected,
-      typeOfItem
+      typeOfItem,
+      onChecked,
+      ...toRefs(state)
     }
   },
-  emits: ['update:checked', 'change', 'close'],
+  emits: ['change', 'close', 'back', 'complete'],
   components: {
-    DirectoryItem,
+    Folder,
+    File,
     ArrowLeftOutlined,
     FolderOpenOutlined,
     CloseOutlined,
