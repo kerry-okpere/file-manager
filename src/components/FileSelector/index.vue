@@ -2,21 +2,23 @@
   <div class="fileSelector">
     <div class="fileSelector-container">
       <div class="fileSelector-content">
-        <Button title="Select File" @click="open"/>
+        <Button title="Select Files" @click="open"/>
         <FileManager class="fileSelector-overlay"
           :visible="visible" :name="directory.name" 
           :files="directory.files" :folders="directory.folders"
           :parentFolderId="directory?.parentFolderId" 
           :loading="loading" :error="error"
+          :selected="tempFileStorage"
           @back="goToParentDirectory"
           @change="changeDirectory"
-          @close="visible = false"
+          @close="handleClose"
           @complete="complete"
+          @selectFile="handleSelect"
         />
       </div>
-      <div v-if="selectedFile.length > 0" class="fileSelector-files">
+      <div v-if="selectedFiles.length > 0" class="fileSelector-files">
         <h3 class="fileSelector-title">Files Selected</h3>
-        <p v-for="file in selectedFile" :key="file.id">{{ file.name }}</p>
+        <p v-for="file in selectedFiles" :key="file.id">{{ file.name }}</p>
       </div>
     </div>
   </div>
@@ -25,7 +27,7 @@
 <script>
 import Button from '@/components/Button/index.vue'
 import FileManager from '@/components/FileManager/index.vue'
-import { getDirectory, whichLevel } from '@/utils/helper.js'
+import { getDirectory, whichLevel } from '@/utils/index.js'
 import { reactive, toRefs } from 'vue'
 
 export default {
@@ -45,23 +47,36 @@ export default {
       loading: false,
       error: false,
       visible: false,
-      prevDirectoryRef: {},
       tracker: [],
-      selectedFile: []
+      tempFileStorage: [],
+      selectedFiles: []
     })
     // methods
-
+    const handleSelect = data => {
+       if(data.checked){
+        state.tempFileStorage.push(data.file)
+      }else {
+        state.tempFileStorage = state.tempFileStorage.filter(({id}) => id !== data.file.id)
+      }
+    }
     const changeDirectory = ({index, folder}) => {
       state.tracker.push(index)
       state.directory = {...folder}
     }
     const open = () => {
+      state.tempFileStorage = [...state.selectedFiles]
       state.directory = {...state.root}
       state.visible = true
     }
-    const complete = file => {
-      state.selectedFile = [...file]
+    const handleClose = () => {
+      state.tempFileStorage = []
       state.visible = false
+      state.tracker = []
+    }
+    const complete = () => {
+      state.selectedFiles = [...state.tempFileStorage]
+      state.visible = false
+      state.tracker = []
     }
      const goToParentDirectory = () => {
       state.tracker.pop()
@@ -94,7 +109,9 @@ export default {
       goToParentDirectory,
       ...toRefs(state),
       complete,
-      open
+      open,
+      handleClose,
+      handleSelect
     }
   },
 }

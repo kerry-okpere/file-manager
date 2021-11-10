@@ -35,10 +35,10 @@
           :type="typeOfItem(file.mimeType)" 
           :disabled="typeOfItem(file.mimeType) === 'file:others'"
           :image="typeOfItem(file.mimeType) === 'file:img' ? file.url : ''" 
-          @update:checked="onChecked({checked:$event, file})" />
+          @update:checked="$emit('selectFile', {checked:$event, file})" />
       </div>
       <footer class="overlay-footer">
-        <Button :title="btnTitle" :disabled="selected.length < 1" @click="$emit('complete', selected)" />
+        <Button :title="btnTitle" :disabled="selected.length < 1" @click="$emit('complete')" />
       </footer>
     </div>
   </transition>
@@ -48,8 +48,9 @@
 import File from '@/components/File/index.vue'
 import Button from '@/components/Button/index.vue'
 import Folder from '@/components/Folder/index.vue'
+import { typeOfItem } from '@/utils/index.js'
 import { ArrowLeftOutlined, FolderOpenOutlined, CloseOutlined } from '@ant-design/icons-vue'
-import { computed, reactive, toRefs } from '@vue/reactivity'
+import { computed } from '@vue/reactivity'
 
 export default {
   name: 'FileManager',
@@ -87,45 +88,30 @@ export default {
       validator: function(value) {
         return (value == null || typeof value == 'string')
       }
+    },
+    selected: {
+      type: Array,
+      required: true
     }
   },
-  setup() {
-    const state = reactive({
-      selected: []
-    })
+  setup(props) {
     const btnTitle = computed(() => {
-      return state.selected.length > 0 ? `Select ${state.selected.length} Files` : 'Select Files'
+      return props.selected.length > 0 ? `Select ${props.selected.length} Files` : 'Select Files'
     })
-    const onChecked = (data) => {
 
-      if(data.checked){
-        state.selected.push(data.file)
-      }else {
-        state.selected = state.selected.filter(({id}) => id !== data.file.id)
-      }
-    }
+    // methods
     const isFileSelected = file => {
-      let index = state.selected.findIndex(({id}) => id === file.id)
+      let index = props.selected.findIndex(({id}) => id === file.id)
       return index >= 0
     }
-    const typeOfItem = type => {
-      if(type === 'image/png' || type === 'image/jpeg'){
-        return 'file:img'
-      }
-      if(type === 'application/pdf'){
-        return 'file:pdf'
-      }
-      return 'file:others'
-    }
+    
     return {
       btnTitle,
-      isFileSelected,
       typeOfItem,
-      onChecked,
-      ...toRefs(state)
+      isFileSelected,
     }
   },
-  emits: ['change', 'close', 'back', 'complete'],
+  emits: ['change', 'close', 'back', 'complete', 'selectFile'],
   components: {
     Folder,
     File,
