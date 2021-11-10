@@ -19,18 +19,18 @@
         </div>
         <div v-else class="file-icon">
           <FilePdfOutlined v-if="type === 'file:pdf'" :style="{fontSize: '1.25rem', color: '#767676'}"  />
-          <FileZipOutlined v-else :style="{fontSize: '1.25rem', color: '#D9D9D9'}"/>
+          <FileExclamationOutlined v-else :style="{fontSize: '1.25rem', color: '#D9D9D9'}"/>
         </div>
         <p>{{ name }}</p>      
       </div>
-      <Checkbox ref="checkbox" v-if="checked" :modelValue="checked" @update:checked=" "/>
+      <Checkbox ref="checkbox" v-if="checked" :modelValue="checked"/>
     </div>
   </div>
 </template>
 <script>
 import Checkbox from '@/components/Checkbox/index.vue'
 import { computed, ref } from 'vue'
-import { FilePdfOutlined, CheckOutlined, FolderOutlined, RightOutlined, FileZipOutlined } from '@ant-design/icons-vue'
+import { FilePdfOutlined, CheckOutlined, FolderOutlined, RightOutlined, FileExclamationOutlined } from '@ant-design/icons-vue'
 
 export default {
   name: 'DirectoryItem',
@@ -77,7 +77,7 @@ export default {
     CheckOutlined, 
     FolderOutlined, 
     RightOutlined,
-    FileZipOutlined
+    FileExclamationOutlined
   }
 }
 </script>
