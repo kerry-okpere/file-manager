@@ -3,7 +3,7 @@
   width: 420px;
   background-color: $white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08), 0px 8px 24px rgba(0, 0, 0, 0.12);
-  padding: .5rem ;
+  padding: .5rem 1rem ;
   top: 0rem;
   border-radius: 16px;
   &-msg{
@@ -39,7 +39,8 @@
     }
   }
   &-body{
-    max-height: 20rem;
+    min-height: 16.5rem;
+    max-height: 18rem;
     overflow: scroll;
   }
   &-footer{
