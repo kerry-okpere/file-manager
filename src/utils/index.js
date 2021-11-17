@@ -1,8 +1,8 @@
 const whichLevel = (data, state) => {
-  let tranisientState = JSON.parse(JSON.stringify(data))  
+  let tranisientState = data
   
   for (let level of state){  
-    tranisientState = JSON.parse(JSON.stringify(tranisientState.folders[level]))
+    tranisientState = tranisientState.folders[level]
   }
   return tranisientState;
 }

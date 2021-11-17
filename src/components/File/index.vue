@@ -8,13 +8,12 @@
       </div>
       <p>{{ name }}</p>      
     </div>
-    <Checkbox v-if="checked" ref="checkbox" :modelValue="checked" 
+    <Checkbox v-if="checked" :modelValue="checked" 
       @update:modelValue="$emit('update:checked', $event)" />
   </div>
 </template>
 <script>
 import Checkbox from '@/components/Checkbox/index.vue'
-import { computed, ref } from 'vue'
 import { FilePdfOutlined, CheckOutlined, RightOutlined, FileExclamationOutlined } from '@ant-design/icons-vue'
 
 export default {
@@ -40,13 +39,13 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const isSelected = computed(() => props.type == 'file:img' || props.type == 'file:pdf' && props.checked)
-    const checkbox = ref(null)    
     const onClick = () => {
-      emit('update:checked', !props.checked)
+      if(props.type !== 'file:others'){
+        emit('update:checked', !props.checked)
+      }
     }
     
-    return { isSelected, onClick, checkbox }
+    return { onClick }
   },
   emits: ['update:checked'],
   components: {

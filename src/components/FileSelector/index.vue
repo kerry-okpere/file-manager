@@ -18,7 +18,9 @@
       </div>
       <div v-if="selectedFiles.length > 0" class="fileSelector-files">
         <h3>Files Selected</h3>
-        <p v-for="file in selectedFiles" :key="file.id">{{ file.name }}</p>
+        <ul>
+          <li v-for="file in selectedFiles" :key="file.id">{{ file.name }}</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -28,7 +30,7 @@
 import Button from '@/components/Button/index.vue'
 import FileManager from '@/components/FileManager/index.vue'
 import { getDirectory, whichLevel } from '@/utils/index.js'
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, watch } from 'vue'
 
 export default {
   name: 'FileSelector',
@@ -103,6 +105,10 @@ export default {
 
     // onCreated
     fetchDirectory()
+
+    watch(()=> state.directory, (n)=> {
+      console.log('newValue', n)
+    }, {immediate: true})
 
     return {
       changeDirectory,

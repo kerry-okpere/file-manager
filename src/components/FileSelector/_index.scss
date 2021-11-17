@@ -4,16 +4,20 @@
     padding: .25rem 0;
     font-weight: 600;
   }
-  p{
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  ul{
+    li{
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   &-files{
     padding: 1rem 0;
-    p{
-      padding: .5rem 0;
+    ul{
+      li{
+        padding: .5rem 0;
+      }
     }
   }
   &-container{
