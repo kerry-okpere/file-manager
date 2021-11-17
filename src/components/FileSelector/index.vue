@@ -106,10 +106,6 @@ export default {
     // onCreated
     fetchDirectory()
 
-    watch(()=> state.directory, (n)=> {
-      console.log('newValue', n)
-    }, {immediate: true})
-
     return {
       changeDirectory,
       goToParentDirectory,
