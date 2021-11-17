@@ -1,7 +1,12 @@
 <template>
-  <router-view/>
+  <Home />
 </template>
 
-<style lang="scss">
-
-</style>
+<script>
+import Home from '../src/views/Home.vue';
+export default {
+  components: {
+    Home,
+  },
+}
+</script>
